@@ -4,6 +4,9 @@ export interface Database{
 }
 
 export interface DatabaseAdapter{
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
+
     createTable(): Promise<void>;
     resetDatabase(): Promise<void>;
     resetTable(tableName: string): Promise<void>;
@@ -24,6 +27,8 @@ export interface DatabaseAdapter{
     removePermissionFromUser(userId: string | number, permissionId: string | number): Promise<void>;
 
     checkUserPermission(userId: string | number, permissionName: string): Promise<boolean>;
+
+    getUserPermissions(userId: string | number): Promise<Permission[]>;
 }
 
 export interface PermissionConfig{

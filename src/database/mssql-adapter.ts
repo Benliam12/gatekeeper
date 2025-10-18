@@ -1,6 +1,16 @@
-import { DatabaseAdapter } from "../core/types";
+import { DatabaseAdapter, Permission } from "../core/types";
 
-export class MSSQLAdapter implements DatabaseAdapter {
+export class MSSQLAdapter {
+
+    getUserPermissions(userId: string | number): Promise<Permission[]> {
+        throw new Error("Method not implemented.");
+    }
+    connect(): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    disconnect(): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
     resetDatabase(): Promise<void> {
         throw new Error("Method not implemented.");
     }
@@ -40,7 +50,9 @@ export class MSSQLAdapter implements DatabaseAdapter {
     checkUserPermission(userId: string | number, permissionName: string): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
+
     async createTable(): Promise<void> {
+        
         // Implementation for creating a table in MSSQL
     }
 

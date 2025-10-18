@@ -1,8 +1,19 @@
 console.log("Hello via Bun!");import { Elysia } from 'elysia';
 
 // Test importing your main package
-import { test } from '@benliam12/gatekeeper';
+import { test, MariaDBAdapter } from '@benliam12/gatekeeper';
 
+const adapter = new MariaDBAdapter({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'Test'
+});
+
+
+adapter.createTable().then(() => {
+    console.log("Tables created successfully.");
+});
 
 const app = new Elysia()
   .get('/', () => 'Gatekeeper test app is running!')

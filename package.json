@@ -54,11 +54,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourname/gatekeeper.git"
+    "url": "https://github.com/Benliam12/gatekeeper.git"
   },
   "peerDependencies": {
     "express": "^4.18.0",
-    "elysia": "^1.0.0"
+    "elysia": "^1.4.12"
   },
   "peerDependenciesMeta": {
     "express": {
@@ -78,10 +78,10 @@
     "@types/supertest": "^6.0.3",
     "elysia": "^1.4.12",
     "express": "^4.21.2",
+    "mariadb": "^3.4.5",
     "nodemon": "^3.1.10",
     "supertest": "^6.3.4",
     "typescript": "^5.9.3",
-    "vitest": "^1.6.1",
-    "mariadb": "^3.4.5"
+    "vitest": "^3.2.4"
   }
 }

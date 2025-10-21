@@ -1,15 +1,9 @@
-
-export interface Database{
-    query<T=any>(sql: string, params?: any[]): Promise<T>;
-}
-
 export interface DatabaseAdapter{
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 
-    createTable(): Promise<void>;
+    initialize(): Promise<void>;
     resetDatabase(): Promise<void>;
-    resetTable(tableName: string): Promise<void>;
 
     createRole(name: string, description?: string): Promise<void>;
     deleteRole(roleId: string | number): Promise<void>;
@@ -26,13 +20,10 @@ export interface DatabaseAdapter{
     assignPermissionToUser(userId: string | number, permissionId: string | number): Promise<void>;
     removePermissionFromUser(userId: string | number, permissionId: string | number): Promise<void>;
 
-    checkUserPermission(userId: string | number, permissionName: string): Promise<boolean>;
-
     getUserPermissions(userId: string | number): Promise<Permission[]>;
 }
 
 export interface PermissionConfig{
-    database: Database;
     databaseAdapter: DatabaseAdapter;
     useCache: boolean;
     jwtSecret?: string;

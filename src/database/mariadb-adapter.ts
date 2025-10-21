@@ -51,7 +51,7 @@ export class MariaDBAdapter implements DatabaseAdapter {
     }
 
 
-    async createTable(): Promise<void> {
+    async initialize(): Promise<void> {
         const queries = [
             `CREATE TABLE IF NOT EXISTS Users (
                 id INT PRIMARY KEY AUTO_INCREMENT,
@@ -105,14 +105,43 @@ export class MariaDBAdapter implements DatabaseAdapter {
             conn.release();
         }
     }
-    resetDatabase(): Promise<void> {
-        throw new Error("Method not implemented.");
+
+    async resetDatabase(): Promise<void> {
+        const conn = this.pool.getConnection();
+
+        // Drop all tables
+        const queries = [
+            `DROP TABLE IF EXISTS UserPermissions`,
+            `DROP TABLE IF EXISTS RolePermissions`,
+            `DROP TABLE IF EXISTS UserRoles`,
+            `DROP TABLE IF EXISTS Permissions`,
+            `DROP TABLE IF EXISTS Roles`,
+            `DROP TABLE IF EXISTS Users`
+        ];
+       
+        return conn.then(async (connection) => {
+            try {
+                for (const query of queries) {
+                    await connection.query(query);
+                }
+
+                await this.initialize();
+            } finally {
+                connection.release();
+            }
+        });
     }
-    resetTable(tableName: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
+
     createRole(name: string, description?: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        const conn = this.pool.getConnection();
+        return conn.then(async (connection) => {
+            try {
+                const query = `INSERT INTO Roles (name, description) VALUES (?, ?)`;
+                await connection.query(query, [name, description || null]);
+            } finally {
+                connection.release();
+            }
+        });
     }
     deleteRole(roleId: string | number): Promise<void> {
         throw new Error("Method not implemented.");

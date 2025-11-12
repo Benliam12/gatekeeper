@@ -12,7 +12,6 @@ export class PermissionService {
         await this.config.databaseAdapter.initialize();
     }
 
-
     /**
      * Returns if the user has the specified permission
      * @param userId 
@@ -25,5 +24,15 @@ export class PermissionService {
         });
     }
 
-    
+    assignPermissionToUser(userId: string | number, permissionName: string): Promise<void> {
+        return this.config.databaseAdapter.assignPermissionToUser(userId, permissionName);
+    }
+
+    assignPermissionToRole(roleId: string | number, permissionName: string): Promise<void> {
+        return this.config.databaseAdapter.assignPermissionToRole(roleId, permissionName);
+    }
+
+    assignRoleToUser(userId: string | number, roleId: string | number): Promise<void> {
+        return this.config.databaseAdapter.assignRoleToUser(userId, roleId);
+    }
 }

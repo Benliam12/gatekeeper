@@ -1,7 +1,6 @@
 import mariadb from "mariadb"
 import { DatabaseAdapter, Permission } from "../core/types";
 
-
 export class MariaDBAdapter implements DatabaseAdapter {
 
     private pool: mariadb.Pool;
@@ -143,15 +142,43 @@ export class MariaDBAdapter implements DatabaseAdapter {
             }
         });
     }
+    
     deleteRole(roleId: string | number): Promise<void> {
-        throw new Error("Method not implemented.");
+        const conn = this.pool.getConnection();
+        return conn.then(async (connection) => {
+            try {
+                const query = `DELETE FROM Roles WHERE id = ?`;
+                await connection.query(query, [roleId]);
+            } finally {
+                connection.release();
+            }   
+        });
     }
+
     createPermission(name: string, description?: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        const conn = this.pool.getConnection();
+        return conn.then(async (connection) => {
+            try {
+                const query = `INSERT INTO Permissions (name, description) VALUES (?, ?)`;
+                await connection.query(query, [name, description || null]);
+            } finally {
+                connection.release();
+            }
+        });
     }
+
     deletePermission(permissionId: string | number): Promise<void> {
-        throw new Error("Method not implemented.");
+        const conn = this.pool.getConnection();
+        return conn.then(async (connection) => {
+            try {
+                const query = `DELETE FROM Permissions WHERE id = ?`;
+                await connection.query(query, [permissionId]);
+            } finally {
+                connection.release();
+            }   
+        }); 
     }
+
     assignRoleToUser(userId: string | number, roleId: string | number): Promise<void> {
         throw new Error("Method not implemented.");
     }

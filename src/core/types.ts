@@ -5,6 +5,9 @@ export interface DatabaseAdapter{
     initialize(): Promise<void>;
     resetDatabase(): Promise<void>;
 
+    createUser(email: string, password: string): Promise<void>;
+    deleteUser(userId: string | number): Promise<void>;
+
     createRole(name: string, description?: string): Promise<void>;
     deleteRole(roleId: string | number): Promise<void>;
 

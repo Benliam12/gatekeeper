@@ -179,6 +179,22 @@ export class MariaDBAdapter implements DatabaseAdapter {
         }); 
     }
 
+    async createUser(email: string): Promise<void> {
+        const conn = await this.pool.getConnection();
+        try {
+            const query = `INSERT INTO Users (email) VALUES (?)`;
+            await conn.query(query, [email]);
+        } catch (error: any) {
+            // MySQL error code 1062 = duplicate entry
+            if (error.code === 'ER_DUP_ENTRY') {
+                throw new Error('USER_ALREADY_EXISTS');
+            }
+            throw error; // Re-throw other errors
+        } finally {
+            conn.release();
+        }
+    }
+
     assignRoleToUser(userId: string | number, roleId: string | number): Promise<void> {
         throw new Error("Method not implemented.");
     }
@@ -198,6 +214,12 @@ export class MariaDBAdapter implements DatabaseAdapter {
         throw new Error("Method not implemented.");
     }
     checkUserPermission(userId: string | number, permissionName: string): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+
+
+
+    async deleteUser(userId: string | number): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
